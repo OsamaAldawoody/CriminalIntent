@@ -14,6 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 
 private const val TAG = "CrimeListFragment"
 class CrimeListFragment: Fragment() {
+    companion object {
+        fun newInstance(): CrimeListFragment {
+            return CrimeListFragment()
+        }
+        val REQUIRE_POLICE = 1
+        val ORIGINAL = 0
+    }
+
     private lateinit var crimeRecyclerView: RecyclerView
     private var adapter: CrimeAdapter? = null
     private val crimeListViewModel: CrimeListViewModel by lazy {
@@ -45,12 +53,6 @@ class CrimeListFragment: Fragment() {
         crimeRecyclerView.adapter = adapter
     }
 
-    companion object {
-        fun newInstance(): CrimeListFragment {
-            return CrimeListFragment()
-        }
-    }
-
     private inner class CrimeHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
         private lateinit var crime: Crime
         private val titleTextView: TextView = view.findViewById(R.id.list_item_crime_title_text_view)
@@ -73,8 +75,10 @@ class CrimeListFragment: Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
                 : CrimeHolder {
-            val view = layoutInflater.inflate(R.layout.list_item_crime, parent, false)
-            return CrimeHolder(view)
+            return if (viewType == REQUIRE_POLICE)
+                CrimeHolder(layoutInflater.inflate(R.layout.list_streamlined_crim, parent, false))
+            else
+             CrimeHolder(layoutInflater.inflate(R.layout.list_item_crime, parent, false))
         }
 
         override fun getItemCount() = crimes.size
@@ -84,8 +88,10 @@ class CrimeListFragment: Fragment() {
             holder.bind(crime)
         }
         override fun getItemViewType(position: Int): Int {
-            return super.getItemViewType(position)
-
+            return if (crimes[position].requiresPolice)
+                1
+            else
+                0
         }
 
     }
