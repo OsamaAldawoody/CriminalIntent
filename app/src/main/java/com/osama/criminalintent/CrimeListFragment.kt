@@ -83,7 +83,10 @@ class CrimeListFragment: Fragment() {
             val crime = crimes[position]
             holder.bind(crime)
         }
+        override fun getItemViewType(position: Int): Int {
+            return super.getItemViewType(position)
 
+        }
 
     }
 }
