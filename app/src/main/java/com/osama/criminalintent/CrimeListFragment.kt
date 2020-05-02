@@ -84,9 +84,6 @@ class CrimeListFragment: Fragment() {
             holder.bind(crime)
         }
 
-        override fun getItemViewType(position: Int): Int {
-            return super.getItemViewType(position)
 
-        }
     }
 }
