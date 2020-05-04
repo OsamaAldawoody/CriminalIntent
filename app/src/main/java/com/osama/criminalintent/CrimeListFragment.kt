@@ -12,6 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.Exception
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 private const val TAG = "CrimeListFragment"
 
@@ -68,12 +73,18 @@ class CrimeListFragment : Fragment() {
         fun bind(crime: Crime) {
             this.crime = crime
             titleTextView.text = this.crime.title
-            dateTextView.text = this.crime.date.toString()
+            val dateFormat: DateFormat= SimpleDateFormat("EEE MMM dd", Locale.getDefault())
+            var date : Date?= null
+            try {
+                date = dateFormat.parse(crime.date.toString())!!
+            }catch (e: Exception){ e.printStackTrace()}
+
+            dateTextView.text = dateFormat.format(date!!)
             solvedImageView.visibility =
                 if (crime.isSolved)
-                    View.VISIBLE
-                else
-                    View.GONE
+                        View.VISIBLE
+                    else
+                        View.GONE
 
         }
 
