@@ -73,19 +73,22 @@ class CrimeListFragment : Fragment() {
         fun bind(crime: Crime) {
             this.crime = crime
             titleTextView.text = this.crime.title
-            val dateFormat: DateFormat= SimpleDateFormat("EEE MMM dd", Locale.getDefault())
-            var date : Date?= null
-            try {
-                date = dateFormat.parse(crime.date.toString())!!
-            }catch (e: Exception){ e.printStackTrace()}
-
-            dateTextView.text = dateFormat.format(date!!)
+            dateTextView.text = dateFormat(crime.date.toString())
             solvedImageView.visibility =
                 if (crime.isSolved)
                         View.VISIBLE
                     else
                         View.GONE
 
+        }
+
+        fun dateFormat(dateString: String):String{
+            val dateFormat: DateFormat= SimpleDateFormat("EEE MMM dd", Locale.getDefault())
+            var date : Date?= null
+            try {
+                date = dateFormat.parse(dateString)!!
+            }catch (e: Exception){ e.printStackTrace()}
+            return dateFormat.format(date!!)
         }
 
         override fun onClick(v: View?) {
